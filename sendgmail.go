@@ -88,7 +88,7 @@ func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
 func main() {
 	read_gmailinfo()
 	read_gmailContent()
-	sendgmail("s2j2", gmailContent.Recipients, gmailContent.Cc,
+	sendgmail("sendgmail", gmailContent.Recipients, gmailContent.Cc,
 		gmailContent.Bcc, gmailContent.Subject, gmailContent.Message)
 	save_gmailinfo()
 }
