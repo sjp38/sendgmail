@@ -15,6 +15,8 @@ type account struct {
 
 type mailcontent struct {
 	Recipients	string
+	Cc		string
+	Bcc		string
 	Subject		string
 	Message		string
 }
@@ -62,7 +64,7 @@ func read_gmailContent() {
 	}
 }
 
-func sendgmail(sender string, receipients, subject, message string) {
+func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
 	username := gmailAccount.Username
 	password := gmailAccount.Password
 	if username == "" || password == "" {
@@ -72,8 +74,9 @@ func sendgmail(sender string, receipients, subject, message string) {
 	hostname := "smtp.gmail.com"
 	port := 587
 	auth := smtp.PlainAuth("", username, password, hostname)
-	msg := fmt.Sprintf("To: %s\r\nSubject: %s\r\n\r\n%s\r\n", receipients,
-		subject, message)
+	msg := fmt.Sprintf(
+		"To: %s\r\nCC: %s\r\nBCC: %s\r\nSubject:%s\r\n\r\n%s\r\n",
+		receipients, cc, bcc, subject, message)
 	err := smtp.SendMail(
 		fmt.Sprintf("%s:%d", hostname, port),
 		auth, sender, strings.Split(receipients, ", "), []byte(msg))
@@ -85,7 +88,7 @@ func sendgmail(sender string, receipients, subject, message string) {
 func main() {
 	read_gmailinfo()
 	read_gmailContent()
-	sendgmail("s2j2", gmailContent.Recipients, gmailContent.Subject,
-		gmailContent.Message)
+	sendgmail("s2j2", gmailContent.Recipients, gmailContent.Cc,
+		gmailContent.Bcc, gmailContent.Subject, gmailContent.Message)
 	save_gmailinfo()
 }
