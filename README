@@ -1,0 +1,16 @@
+sendgmail
+=========
+
+A simple email sender program using gmail smtp written in Go language.
+
+
+Author
+======
+
+SeongJae Park <sj38.park@gmail.com>
+
+
+License
+=======
+
+GPL v3
