@@ -1,9 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"encoding/json"
 	"net/smtp"
 	"strings"
 )
@@ -14,11 +14,11 @@ type account struct {
 }
 
 type mailcontent struct {
-	Recipients	string
-	Cc		string
-	Bcc		string
-	Subject		string
-	Message		string
+	Recipients string
+	Cc         string
+	Bcc        string
+	Subject    string
+	Message    string
 }
 
 const gmailAccountFile = "gmailinfo"
