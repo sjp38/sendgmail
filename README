@@ -4,6 +4,16 @@ sendgmail
 A simple email sender program using gmail smtp written in Go language.
 
 
+Usage
+=====
+
+First, you should set a gmail account that SMTP is enabled.  Then, write down
+two files, `gmailinfo` and `mailcontent`.  `gmailinfo` file should have account
+name and password of your gmail account.  `mailcontent` file should have
+recipients, cc, bcc, subject, and message.  The two files should be written in
+jason format.  For more detail, use the source.
+
+
 Author
 ======
 
