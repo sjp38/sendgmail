@@ -7,10 +7,14 @@ A simple email sender program using gmail smtp written in Go language.
 Usage
 =====
 
-First, you should set a gmail account that SMTP is enabled.  Then, write down a
-file, `gmailinfo`.  `gmailinfo` file should have account name and password of
-your gmail account, recipients, cc, bcc, subject, and message which you are
-willing to send.  The file should be written in jason format.  For example,
+First, you should set a gmail account that SMTP is enabled.  In short, Settings
+-> Forwarding and POP/IMAP -> Check 'Enable IMAP'.  That's it.
+
+After your gmail account is ready, write down a file, `gmailinfo` on the
+directory you are willing to execute this program.  `gmailinfo` file should
+have account name and password of your gmail account, recipients, cc, bcc,
+subject, and message which you are willing to send.  The file should be written
+in jason format.  For example,
 
 ```
 $ cat gmailinfo
