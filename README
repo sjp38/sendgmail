@@ -35,7 +35,8 @@ uncomfortable, you can write your message in 'mailmessage' file.  It will
 overwrite the message in 'gmailinfo'.
 
 The path to the files can be changed by using command line options described
-below.
+below.  Also, all information below can be overwritten by command line option,
+seperatively.
 
 
 Options
@@ -43,12 +44,26 @@ Options
 
 There are two command line options.
 
-  -account string
-        File that containing information about the mail to send. (default "gmailinfo")
+  -bcc string
+        BCC list of the mail
+  -cc string
+        CC list of the mail
   -dryrun
         Do not send mail, just show what will happen
+  -info string
+        File that containing information about the mail to send. (default "gmailinfo")
   -message string
+        Messge of the mail
+  -msgfile string
         File that containing message of the mail (default "mailmessage")
+  -pass string
+        Gmail account password
+  -recip string
+        Recipients of the mail
+  -subject string
+        Subject of the mail
+  -user string
+        Gmail account user name
 
 
 Author
