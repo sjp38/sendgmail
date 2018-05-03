@@ -25,11 +25,16 @@ $ cat gmailinfo
 	"Cc":"somebody@somewhere.com",
 	"Bcc":"",
 	"Subject":"Test for sengmail with CC and BCC",
-	"Message":"Hello, this is test"
+	"Message":"Hello, this is test\n\nnew line is possible."
 }
 ```
 
-The path to the file can be changed by using command line options described
+As you can see from the example, multiline message should write down '\n'
+manually because json doesn't allow multi-line string.  If this makes you
+uncomfortable, you can write your message in 'mailmessage' file.  It will
+overwrite the message in 'gmailinfo'.
+
+The path to the files can be changed by using command line options described
 below.
 
 
@@ -42,6 +47,8 @@ There are two command line options.
         File that containing information about the mail to send. (default "gmailinfo")
   -dryrun
         Do not send mail, just show what will happen
+  -message string
+        File that containing message of the mail (default "mailmessage")
 
 
 Author
