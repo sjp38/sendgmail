@@ -10,8 +10,8 @@ import (
 )
 
 type mailInfo struct {
-	Username string
-	Password string
+	Username   string
+	Password   string
 	Recipients string
 	Cc         string
 	Bcc        string
