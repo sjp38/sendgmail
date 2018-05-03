@@ -24,6 +24,8 @@ var (
 		"File that containing information about the mail to send.")
 	dry = flag.Bool("dryrun", false,
 		"Do not send mail, just show what will happen")
+	msgFile = flag.String("message", "mailmessage",
+		"File that containing message of the mail")
 
 	gmailInfo mailInfo
 )
@@ -53,6 +55,15 @@ func save_gmailinfo() {
 		fmt.Printf("failed to write account info: %s\n", err)
 		return
 	}
+}
+
+func readMsgfile() string {
+	c, err := ioutil.ReadFile(*msgFile)
+	if err != nil {
+		fmt.Printf("failed to read message file: %s\n", err)
+		return ""
+	}
+	return string(c)
 }
 
 func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
@@ -89,6 +100,10 @@ func main() {
 		save_gmailinfo()
 		return
 	}
+	msg := readMsgfile()
+	if msg == "" {
+		msg = gmailInfo.Message
+	}
 	sendgmail("sendgmail", gmailInfo.Recipients, gmailInfo.Cc,
-		gmailInfo.Bcc, gmailInfo.Subject, gmailInfo.Message)
+		gmailInfo.Bcc, gmailInfo.Subject, msg)
 }
