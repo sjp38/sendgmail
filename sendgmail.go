@@ -28,16 +28,18 @@ var (
 	gmailInfo mailInfo
 )
 
-func read_gmailinfo() {
+func read_gmailinfo() bool {
 	c, err := ioutil.ReadFile(*gmailInfoFile)
 	if err != nil {
 		fmt.Printf("failed to read mail info file: %s\n", err)
-		return
+		return false
 	}
 	if err := json.Unmarshal(c, &gmailInfo); err != nil {
 		fmt.Printf("failed to unmarshal mail info: %s\n", err)
-		return
+		fmt.Printf("The original file content: %s\n", string(c))
+		return false
 	}
+	return true
 }
 
 func save_gmailinfo() {
@@ -82,8 +84,11 @@ func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
 func main() {
 	flag.Parse()
 
-	read_gmailinfo()
+	read := read_gmailinfo()
+	if !read {
+		save_gmailinfo()
+		return
+	}
 	sendgmail("sendgmail", gmailInfo.Recipients, gmailInfo.Cc,
 		gmailInfo.Bcc, gmailInfo.Subject, gmailInfo.Message)
-	save_gmailinfo()
 }
