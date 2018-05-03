@@ -24,8 +24,23 @@ var (
 		"File that containing information about the mail to send.")
 	dry = flag.Bool("dryrun", false,
 		"Do not send mail, just show what will happen")
-	msgFile = flag.String("message", "mailmessage",
+	msgFile = flag.String("msgfile", "mailmessage",
 		"File that containing message of the mail")
+
+	username = flag.String("user", "",
+		"Gmail account user name")
+	password = flag.String("pass", "",
+		"Gmail account password")
+	recipients = flag.String("recip", "",
+		"Recipients of the mail")
+	cc = flag.String("cc", "",
+		"CC list of the mail")
+	bcc = flag.String("bcc", "",
+		"BCC list of the mail")
+	subject = flag.String("subject", "",
+		"Subject of the mail")
+	message = flag.String("message", "",
+		"Messge of the mail")
 
 	gmailInfo mailInfo
 )
@@ -72,15 +87,13 @@ func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
 			sender, receipients, cc, bcc, subject, message)
 		return
 	}
-	username := gmailInfo.Username
-	password := gmailInfo.Password
-	if username == "" || password == "" {
-		fmt.Printf("Mail info not read\n")
+	if *username == "" || *password == "" {
+		fmt.Printf("Gmail account information is wrong\n")
 		return
 	}
 	hostname := "smtp.gmail.com"
 	port := 587
-	auth := smtp.PlainAuth("", username, password, hostname)
+	auth := smtp.PlainAuth("", *username, *password, hostname)
 	msg := fmt.Sprintf(
 		"To: %s\r\nCC: %s\r\nBCC: %s\r\nSubject:%s\r\n\r\n%s\r\n",
 		receipients, cc, bcc, subject, message)
@@ -100,10 +113,33 @@ func main() {
 		save_gmailinfo()
 		return
 	}
+
+	if *username == "" {
+		*username = gmailInfo.Username
+	}
+	if *password == "" {
+		*password = gmailInfo.Password
+	}
+	if *recipients == "" {
+		*recipients = gmailInfo.Recipients
+	}
+	if *cc == "" {
+		*cc = gmailInfo.Cc
+	}
+	if *bcc == "" {
+		*bcc = gmailInfo.Bcc
+	}
+	if *subject == "" {
+		*subject = gmailInfo.Subject
+	}
+
 	msg := readMsgfile()
 	if msg == "" {
 		msg = gmailInfo.Message
 	}
-	sendgmail("sendgmail", gmailInfo.Recipients, gmailInfo.Cc,
-		gmailInfo.Bcc, gmailInfo.Subject, msg)
+
+	if *message != "" {
+		msg = *message
+	}
+	sendgmail("sendgmail", *recipients, *cc, *bcc, *subject, msg)
 }
