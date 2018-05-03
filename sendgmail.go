@@ -9,12 +9,9 @@ import (
 	"strings"
 )
 
-type account struct {
+type mailInfo struct {
 	Username string
 	Password string
-}
-
-type mailcontent struct {
 	Recipients string
 	Cc         string
 	Bcc        string
@@ -23,50 +20,35 @@ type mailcontent struct {
 }
 
 var (
-	gmailAccountFile = flag.String("account", "gmailinfo",
-		"File that containing account name and password.")
-	gmailContentFile = flag.String("content", "mailcontent",
-		"File that containing recipients, subject, and message.")
+	gmailInfoFile = flag.String("account", "gmailinfo",
+		"File that containing information about the mail to send.")
 	dry = flag.Bool("dryrun", false,
 		"Do not send mail, just show what will happen")
+
+	gmailInfo mailInfo
 )
 
-var gmailAccount account
-var gmailContent mailcontent
-
 func read_gmailinfo() {
-	c, err := ioutil.ReadFile(*gmailAccountFile)
+	c, err := ioutil.ReadFile(*gmailInfoFile)
 	if err != nil {
 		fmt.Printf("failed to read mail info file: %s\n", err)
 		return
 	}
-	if err := json.Unmarshal(c, &gmailAccount); err != nil {
+	if err := json.Unmarshal(c, &gmailInfo); err != nil {
 		fmt.Printf("failed to unmarshal mail info: %s\n", err)
 		return
 	}
 }
 
 func save_gmailinfo() {
-	bytes, err := json.Marshal(gmailAccount)
+	bytes, err := json.Marshal(gmailInfo)
 	if err != nil {
 		fmt.Printf("failed to marshal account: %s\n", err)
 		return
 	}
 
-	if err := ioutil.WriteFile(*gmailAccountFile, bytes, 0600); err != nil {
+	if err := ioutil.WriteFile(*gmailInfoFile, bytes, 0600); err != nil {
 		fmt.Printf("failed to write account info: %s\n", err)
-		return
-	}
-}
-
-func read_gmailContent() {
-	c, err := ioutil.ReadFile(*gmailContentFile)
-	if err != nil {
-		fmt.Printf("failed to read mail content file: %s\n", err)
-		return
-	}
-	if err := json.Unmarshal(c, &gmailContent); err != nil {
-		fmt.Printf("failed to unmarshal mail content: %s\n", err)
 		return
 	}
 }
@@ -77,8 +59,8 @@ func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
 			sender, receipients, cc, bcc, subject, message)
 		return
 	}
-	username := gmailAccount.Username
-	password := gmailAccount.Password
+	username := gmailInfo.Username
+	password := gmailInfo.Password
 	if username == "" || password == "" {
 		fmt.Printf("Mail info not read\n")
 		return
@@ -101,8 +83,7 @@ func main() {
 	flag.Parse()
 
 	read_gmailinfo()
-	read_gmailContent()
-	sendgmail("sendgmail", gmailContent.Recipients, gmailContent.Cc,
-		gmailContent.Bcc, gmailContent.Subject, gmailContent.Message)
+	sendgmail("sendgmail", gmailInfo.Recipients, gmailInfo.Cc,
+		gmailInfo.Bcc, gmailInfo.Subject, gmailInfo.Message)
 	save_gmailinfo()
 }
