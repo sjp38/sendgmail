@@ -26,6 +26,23 @@ $ cat mailcontent
 }
 ```
 
+The path to the files can be changed by using command line options described
+below.
+
+
+Options
+-------
+
+There are three options.
+  -account string
+        File that containing account name and password. (default "gmailinfo")
+  -content string
+        File that containing recipients, subject, and message.
+	(default "mailcontent")
+  -dryrun
+        Do not send mail, just show what will happen
+
+
 Author
 ======
 
