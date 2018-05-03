@@ -7,17 +7,16 @@ A simple email sender program using gmail smtp written in Go language.
 Usage
 =====
 
-First, you should set a gmail account that SMTP is enabled.  Then, write down
-two files, `gmailinfo` and `mailcontent`.  `gmailinfo` file should have account
-name and password of your gmail account.  `mailcontent` file should have
-recipients, cc, bcc, subject, and message.  The two files should be written in
-jason format.  For example,
+First, you should set a gmail account that SMTP is enabled.  Then, write down a
+file, `gmailinfo`.  `gmailinfo` file should have account name and password of
+your gmail account, recipients, cc, bcc, subject, and message which you are
+willing to send.  The file should be written in jason format.  For example,
 
 ```
 $ cat gmailinfo
-{"Username":"sendgmail","Password":"sendgmailpassword"}
-$ cat mailcontent
 {
+	"Username":"sendgmail",
+	"Password":"sendgmailpassword"
 	"Recipients":"foo@bar.com",
 	"Cc":"somebody@somewhere.com",
 	"Bcc":"",
@@ -26,19 +25,17 @@ $ cat mailcontent
 }
 ```
 
-The path to the files can be changed by using command line options described
+The path to the file can be changed by using command line options described
 below.
 
 
 Options
 -------
 
-There are three options.
+There are two command line options.
+
   -account string
-        File that containing account name and password. (default "gmailinfo")
-  -content string
-        File that containing recipients, subject, and message.
-	(default "mailcontent")
+        File that containing information about the mail to send. (default "gmailinfo")
   -dryrun
         Do not send mail, just show what will happen
 
