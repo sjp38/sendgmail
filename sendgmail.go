@@ -20,7 +20,7 @@ type mailInfo struct {
 }
 
 var (
-	gmailInfoFile = flag.String("account", "gmailinfo",
+	gmailInfoFile = flag.String("info", "gmailinfo",
 		"File that containing information about the mail to send.")
 	dry = flag.Bool("dryrun", false,
 		"Do not send mail, just show what will happen")
