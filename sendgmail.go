@@ -81,10 +81,10 @@ func readMsgfile() string {
 	return string(c)
 }
 
-func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
+func sendgmail(sender string, recipients, cc, bcc, subject, message string) {
 	if *dry {
 		fmt.Printf("sender: %s\nrecipients: %s\ncc: %s\nbcc: %s\nsubject: %s\nmessage: %s\n",
-			sender, receipients, cc, bcc, subject, message)
+			sender, recipients, cc, bcc, subject, message)
 		return
 	}
 	if *username == "" || *password == "" {
@@ -96,10 +96,10 @@ func sendgmail(sender string, receipients, cc, bcc, subject, message string) {
 	auth := smtp.PlainAuth("", *username, *password, hostname)
 	msg := fmt.Sprintf(
 		"To: %s\r\nCC: %s\r\nBCC: %s\r\nSubject:%s\r\n\r\n%s\r\n",
-		receipients, cc, bcc, subject, message)
+		recipients, cc, bcc, subject, message)
 	err := smtp.SendMail(
 		fmt.Sprintf("%s:%d", hostname, port),
-		auth, sender, strings.Split(receipients, ", "), []byte(msg))
+		auth, sender, strings.Split(recipients, ", "), []byte(msg))
 	if err != nil {
 		fmt.Printf("failed to send message: %s\n", err)
 	}
