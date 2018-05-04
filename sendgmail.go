@@ -31,7 +31,7 @@ var (
 		"Gmail account user name")
 	password = flag.String("pass", "",
 		"Gmail account password")
-	recipients = flag.String("recip", "",
+	recipients = flag.String("to", "",
 		"Recipients of the mail")
 	cc = flag.String("cc", "",
 		"CC list of the mail")
