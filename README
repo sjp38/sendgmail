@@ -42,8 +42,8 @@ seperatively.
 Options
 -------
 
-There are two command line options.
-
+There are few command line options.
+```
   -bcc string
         BCC list of the mail
   -cc string
@@ -58,12 +58,13 @@ There are two command line options.
         File that containing message of the mail (default "mailmessage")
   -pass string
         Gmail account password
-  -recip string
-        Recipients of the mail
   -subject string
         Subject of the mail
+  -to string
+        Recipients of the mail
   -user string
         Gmail account user name
+```
 
 
 Author
