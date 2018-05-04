@@ -83,7 +83,8 @@ func readMsgfile() string {
 
 func sendgmail(sender string, recipients, cc, bcc, subject, message string) {
 	if *dry {
-		fmt.Printf("sender: %s\nrecipients: %s\ncc: %s\nbcc: %s\nsubject: %s\nmessage: %s\n",
+		fmt.Printf("sender: %s\nrecipients: %s\ncc: %s\nbcc: %s\n"+
+			"subject: %s\nmessage: %s\n",
 			sender, recipients, cc, bcc, subject, message)
 		return
 	}
