@@ -95,11 +95,18 @@ func sendgmail(sender string, recipients, cc, bcc, subject, message string) {
 	port := 587
 	auth := smtp.PlainAuth("", *username, *password, hostname)
 	msg := fmt.Sprintf(
-		"To: %s\r\nCC: %s\r\nBCC: %s\r\nSubject:%s\r\n\r\n%s\r\n",
-		recipients, cc, bcc, subject, message)
+		"To: %s\r\nCC: %s\r\nSubject:%s\r\n\r\n%s\r\n",
+		recipients, cc, subject, message)
+	to := strings.Split(recipients, ", ")
+	if cc != "" {
+		to = append(to, strings.Split(cc, ", ")...)
+	}
+	if bcc != "" {
+		to = append(to, strings.Split(bcc, ", ")...)
+	}
 	err := smtp.SendMail(
 		fmt.Sprintf("%s:%d", hostname, port),
-		auth, sender, strings.Split(recipients, ", "), []byte(msg))
+		auth, sender, to, []byte(msg))
 	if err != nil {
 		fmt.Printf("failed to send message: %s\n", err)
 	}
